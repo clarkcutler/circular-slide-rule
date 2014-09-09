@@ -30,7 +30,6 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-var data = [10,20,30,40,50,60,70,80,90];
 var data = [10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,30,35,40,45,50,55,60,70,80,90]
 
 data.forEach(function(d) {
@@ -45,16 +44,6 @@ var g = svg.selectAll(".arc")
 g.append("path")
     .attr("d", arc);
 
-g.append("text")
-    .attr("transform", function(d) {
-      return "rotate(" + (d.startAngle * 180 / Math.PI - 90) + ")"
-        + "translate(" + (radius) + ",0)"
-        + "rotate(90)";
-    })
-    .attr("dy", ".35em")
-    .style("text-anchor", "middle")
-    .text(function(d) { return d.data; });
-
 var ticks = svg.selectAll(".tick")
     .data(dataToAngle(data))
   .enter().append("g")
@@ -66,7 +55,22 @@ ticks.append("line")
     .attr("y2", 0)
     .attr("transform", function(d) {
       return "rotate(" + (d.startAngle * 180 / Math.PI - 90) + ")"
-          + "translate(" + (radius - 20) + ",0)"
+          + "translate(" + (radius - 70) + ",0)"
     })
     .style("stroke", "#eee")
+
+var text = svg.selectAll(".text")
+    .data(dataToAngle(data))
+  .enter().append("g")
+    .attr("class", "arc");
+
+text.append("text")
+    .attr("transform", function(d) {
+      return "rotate(" + (d.startAngle * 180 / Math.PI - 90) + ")"
+        + "translate(" + (radius - 50) + ",0)"
+        + "rotate(90)";
+    })
+    .attr("dy", ".35em")
+    .style("text-anchor", "middle")
+    .text(function(d) { return d.data; });
 
