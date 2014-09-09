@@ -1,6 +1,6 @@
 var width = 960,
-    height = 500,
-    radius = Math.min(width, height) / 2;
+    height = 600,
+    radius = Math.min(width, height - 50) / 2;
 
 var arc = d3.svg.arc()
     .outerRadius(radius - 10)
@@ -31,7 +31,11 @@ g.append("path")
     .attr("d", arc);
 
 g.append("text")
-    .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+    .attr("transform", function(d) {
+      return "rotate(" + (d.endAngle * 180 / Math.PI - 90) + ")"
+        + "translate(" + (radius) + ",0)"
+        + "rotate(90)";
+    })
     .attr("dy", ".35em")
     .style("text-anchor", "middle")
     .text(function(d) { return d.data; });
