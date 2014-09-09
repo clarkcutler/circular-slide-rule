@@ -2,10 +2,19 @@ body {
   background: #222;
 }
 
+svg {
+  margin-top: 50px;
+}
+
 .arc path {
   fill: #066;
+  stroke: #066;
 }
 
 text {
   fill: #eee;
+}
+
+line {
+  z-index: 2;
 }

@@ -35,3 +35,20 @@ g.append("text")
     .attr("dy", ".35em")
     .style("text-anchor", "middle")
     .text(function(d) { return d.data; });
+
+var ticks = svg.selectAll(".tick")
+    .data(pie(data))
+  .enter().append("g")
+    .attr("class", "arc");
+ticks.append("line")
+    .attr("x1", 0)
+    .attr("y1", 0)
+    .attr("x2", 10)
+    .attr("y2", 0)
+    .attr("transform", function(d) {
+      console.log(d);
+      return "rotate(" + (d.endAngle * 180 / Math.PI - 90) + ")"
+          + "translate(" + (radius - 20) + ",0)"
+    })
+    .style("stroke", "#eee")
+
