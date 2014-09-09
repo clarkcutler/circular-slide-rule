@@ -11,6 +11,11 @@ svg {
   stroke: #066;
 }
 
+.inner-arc path {
+  fill: #3AA;
+  stroke: #3AA;
+}
+
 text {
   fill: #eee;
 }

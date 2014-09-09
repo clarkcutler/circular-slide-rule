@@ -32,9 +32,7 @@ var svg = d3.select("body").append("svg")
 
 var data = [10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,30,35,40,45,50,55,60,70,80,90]
 
-data.forEach(function(d) {
-  d.population = +d.population;
-});
+// outer circle
 
 var g = svg.selectAll(".arc")
     .data(dataToAngle(data))
@@ -47,7 +45,7 @@ g.append("path")
 var ticks = svg.selectAll(".tick")
     .data(dataToAngle(data))
   .enter().append("g")
-    .attr("class", "arc");
+    .attr("class", "tick");
 ticks.append("line")
     .attr("x1", 0)
     .attr("y1", 0)
@@ -62,12 +60,57 @@ ticks.append("line")
 var text = svg.selectAll(".text")
     .data(dataToAngle(data))
   .enter().append("g")
-    .attr("class", "arc");
+    .attr("class", "text");
 
 text.append("text")
     .attr("transform", function(d) {
       return "rotate(" + (d.startAngle * 180 / Math.PI - 90) + ")"
         + "translate(" + (radius - 50) + ",0)"
+        + "rotate(90)";
+    })
+    .attr("dy", ".35em")
+    .style("text-anchor", "middle")
+    .text(function(d) { return d.data; });
+
+
+// inner circle
+
+var innerArc = d3.svg.arc()
+    .outerRadius(radius - 75)
+    .innerRadius(radius - 120);
+
+var g = svg.selectAll(".inner-arc")
+    .data(dataToAngle(data))
+  .enter().append("g")
+    .attr("class", "inner-arc");
+
+g.append("path")
+    .attr("d", innerArc);
+
+var ticks = svg.selectAll(".inner-tick")
+    .data(dataToAngle(data))
+  .enter().append("g")
+    .attr("class", "inner-tick");
+ticks.append("line")
+    .attr("x1", 0)
+    .attr("y1", 0)
+    .attr("x2", 10)
+    .attr("y2", 0)
+    .attr("transform", function(d) {
+      return "rotate(" + (d.startAngle * 180 / Math.PI - 90) + ")"
+          + "translate(" + (radius - 85) + ",0)"
+    })
+    .style("stroke", "#eee")
+
+var text = svg.selectAll(".inner-text")
+    .data(dataToAngle(data))
+  .enter().append("g")
+    .attr("class", "inner-text");
+
+text.append("text")
+    .attr("transform", function(d) {
+      return "rotate(" + (d.startAngle * 180 / Math.PI - 90) + ")"
+        + "translate(" + (radius - 95) + ",0)"
         + "rotate(90)";
     })
     .attr("dy", ".35em")
