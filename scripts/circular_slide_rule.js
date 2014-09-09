@@ -17,6 +17,7 @@ var svg = d3.select("body").append("svg")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 var data = [10,20,30,40,50,60,70,80,90];
+var data = [10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,30,35,40,45,50,55,60,70,80,90]
 
 data.forEach(function(d) {
   d.population = +d.population;
@@ -50,7 +51,6 @@ ticks.append("line")
     .attr("x2", 10)
     .attr("y2", 0)
     .attr("transform", function(d) {
-      console.log(d);
       return "rotate(" + (d.endAngle * 180 / Math.PI - 90) + ")"
           + "translate(" + (radius - 20) + ",0)"
     })
