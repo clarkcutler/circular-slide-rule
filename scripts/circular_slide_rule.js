@@ -1,3 +1,7 @@
+function log10(x) {
+  return Math.log(x) / Math.LN10;
+}
+
 var width = 960,
     height = 600,
     radius = Math.min(width, height - 50) / 2;
@@ -9,6 +13,16 @@ var arc = d3.svg.arc()
 var pie = d3.layout.pie()
     .sort(null)
     .value(function(d) { return 1 });
+
+var dataToAngle = function(data) {
+  return data.map(function(datum) {
+    return {
+      data: datum,
+      startAngle: (log10(datum) - 1) * 2*Math.PI,
+      endAngle: (log10(datum) - 1) * 2*Math.PI + 0.5 // TODO
+    }
+  });
+}
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
@@ -24,7 +38,7 @@ data.forEach(function(d) {
 });
 
 var g = svg.selectAll(".arc")
-    .data(pie(data))
+    .data(dataToAngle(data))
   .enter().append("g")
     .attr("class", "arc");
 
@@ -33,7 +47,7 @@ g.append("path")
 
 g.append("text")
     .attr("transform", function(d) {
-      return "rotate(" + (d.endAngle * 180 / Math.PI - 90) + ")"
+      return "rotate(" + (d.startAngle * 180 / Math.PI - 90) + ")"
         + "translate(" + (radius) + ",0)"
         + "rotate(90)";
     })
@@ -42,7 +56,7 @@ g.append("text")
     .text(function(d) { return d.data; });
 
 var ticks = svg.selectAll(".tick")
-    .data(pie(data))
+    .data(dataToAngle(data))
   .enter().append("g")
     .attr("class", "arc");
 ticks.append("line")
@@ -51,7 +65,7 @@ ticks.append("line")
     .attr("x2", 10)
     .attr("y2", 0)
     .attr("transform", function(d) {
-      return "rotate(" + (d.endAngle * 180 / Math.PI - 90) + ")"
+      return "rotate(" + (d.startAngle * 180 / Math.PI - 90) + ")"
           + "translate(" + (radius - 20) + ",0)"
     })
     .style("stroke", "#eee")
